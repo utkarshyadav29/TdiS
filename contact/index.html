@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact Us – TDiS | Engineering Design & Consulting</title>
+<link rel="icon" href="../logo-TDiS.png" type="image/png">
+<meta name="description" content="Contact TDiS – Select your service, explore projects, request edits and submit your engineering inquiry. We respond within 24 hours.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --red:#C0392B;--red2:#E74C3C;
+  --blue:#1A6FC4;--blue2:#2389E8;--blue-light:#EBF4FF;
+  --navy:#0D1F3C;--navy2:#1A3560;
+  --white:#fff;--offwhite:#F0F2F5;
+  --text:#1C2333;--text2:#3A4A5E;--text3:#6B7A90;
+  --border:#DDE3EE;--green:#27ae60;--orange:#e67e22;
+  --ff-head:'Rajdhani',sans-serif;
+  --ff-body:'Exo 2',sans-serif;
+  --ff-mono:'Share Tech Mono',monospace;
+  --ease:cubic-bezier(.23,1,.32,1);
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--ff-body);background:#fff;color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+a{text-decoration:none;color:inherit}ul{list-style:none}img{max-width:100%;display:block}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--blue);border-radius:2px}
+@keyframes gradslide{0%{background-position:0%}100%{background-position:200%}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* NAVBAR */
+#navbar{position:fixed;top:0;left:0;right:0;z-index:200;height:80px;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);box-shadow:0 2px 20px rgba(0,0,0,.06);}
+#navbar::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--red) 0%,var(--blue) 50%,var(--red) 100%);background-size:200%;animation:gradslide 4s linear infinite;}
+.nav-brand{display:flex;align-items:center;gap:12px;flex-shrink:0;padding:0 18px 0 14px;border-right:1px solid var(--border);height:100%;}
+.nav-brand img{height:72px;width:auto;}
+.nav-brand-text{display:flex;flex-direction:column;gap:2px;}
+.nav-brand-fullname{font-family:var(--ff-head);font-weight:700;font-size:17px;color:var(--navy);letter-spacing:.5px;white-space:nowrap;line-height:1.2;}
+.nav-brand-tagline{font-family:var(--ff-head);font-weight:400;font-size:13px;color:red;letter-spacing:.5px;font-style:italic;}
+.nav-links{display:flex;align-items:center;gap:1px;}
+.nav-item{position:relative;}
+.nav-item>a{display:flex;align-items:center;gap:5px;font-family:var(--ff-body);font-size:15px;font-weight:600;letter-spacing:.3px;color:var(--text2);padding:8px 13px;border-radius:4px;transition:color .2s,background .2s;white-space:nowrap;}
+.nav-item>a:hover,.nav-item>a.active{color:var(--blue);background:var(--blue-light);}
+.chevron{display:inline-block;width:10px;height:10px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg) translateY(-2px);transition:transform .25s;}
+.nav-item:hover>a .chevron{transform:rotate(-135deg) translateY(-2px);}
+.dropdown{position:absolute;top:calc(100% + 6px);left:0;background:#fff;border:1px solid var(--border);border-radius:10px;min-width:270px;padding:8px 0;opacity:0;visibility:hidden;transform:translateY(8px);transition:all .25s var(--ease);box-shadow:0 20px 60px rgba(0,0,0,.12);}
+.nav-item:hover .dropdown{opacity:1;visibility:visible;transform:translateY(0);}
+.dropdown a{display:flex;align-items:center;gap:10px;font-size:13.5px;font-weight:500;color:var(--text2);padding:10px 20px;border-left:3px solid transparent;transition:all .2s;}
+.dropdown a:hover{color:var(--blue);background:var(--blue-light);border-left-color:var(--blue);}
+.dropdown a.view-all{color:var(--blue);font-weight:700;border-top:1px solid var(--border);margin-top:4px;padding-top:12px;}
+.dropdown a.view-all:hover{background:var(--blue);color:#fff;border-left-color:var(--blue);}
+.drop-icon{font-size:14px;width:20px;text-align:center;flex-shrink:0;}
+.drop-div{height:1px;background:var(--border);margin:4px 12px;}
+.nav-right{display:flex;align-items:center;gap:10px;flex-shrink:0;padding-right:20px;}
+.nav-phone{font-family:var(--ff-mono);font-size:12px;color:var(--text3);display:flex;align-items:center;gap:6px;border:1px solid var(--border);border-radius:4px;padding:7px 13px;}
+.nav-phone::before{content:'';width:7px;height:7px;border-radius:50%;background:#27ae60;animation:blink 2s infinite;}
+.nav-wa{display:flex;align-items:center;gap:6px;background:#25D366;color:#fff;font-family:var(--ff-body);font-size:14px;font-weight:600;padding:8px 16px;border-radius:4px;transition:background .2s,transform .2s;}
+.nav-wa:hover{background:#1ebe5a;transform:translateY(-1px);}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;}
+.hamburger span{width:24px;height:2px;background:var(--navy);border-radius:2px;transition:all .3s;}
+.mob-menu{display:none;position:fixed;top:80px;left:0;right:0;bottom:0;background:#fff;z-index:199;padding:24px 6vw;overflow-y:auto;flex-direction:column;}
+.mob-menu.open{display:flex;}
+.mob-menu a{font-family:var(--ff-body);font-size:18px;font-weight:600;color:var(--text2);padding:15px 0;border-bottom:1px solid var(--border);}
+.mob-section{font-size:11px;letter-spacing:2px;color:var(--blue);padding:18px 0 4px;text-transform:uppercase;font-family:var(--ff-mono);}
+
+/* PAGE HEADING */
+.page-head{padding:130px 5vw 50px;text-align:center;background:linear-gradient(180deg,#f7f9ff 0%,#fff 100%);}
+.page-head-tag{font-family:var(--ff-mono);font-size:12px;letter-spacing:3px;color:var(--blue);text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;justify-content:center;gap:10px;}
+.page-head-tag::before,.page-head-tag::after{content:'';flex:1;height:1px;background:var(--border);max-width:80px;}
+.page-head h1{font-family:var(--ff-head);font-size:clamp(42px,8vw,80px);font-weight:700;color:var(--navy);letter-spacing:1px;line-height:1.08;margin-bottom:18px;}
+.page-head h1 span{background:linear-gradient(90deg,var(--red2),var(--blue2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.page-head p{font-size:19px;color:var(--text3);max-width:660px;margin:0 auto 28px;line-height:1.75;}
+.page-stats{display:flex;justify-content:center;gap:40px;flex-wrap:wrap;margin-top:8px;}
+.stat{text-align:center;}
+.stat-num{font-family:var(--ff-head);font-size:28px;font-weight:700;color:var(--navy);}
+.stat-lbl{font-size:12px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;}
+
+/* WIZARD WRAP */
+.wizard-wrap{max-width:920px;margin:0 auto 80px;padding:0 5vw;}
+
+/* STEPS BAR */
+.steps-bar{display:flex;justify-content:center;gap:0;margin-bottom:44px;background:var(--offwhite);border-radius:50px;padding:5px;flex-wrap:wrap;}
+.step-pill{font-family:var(--ff-mono);font-size:12px;letter-spacing:1px;padding:9px 20px;border-radius:50px;color:var(--text3);background:transparent;cursor:default;transition:all .35s var(--ease);text-transform:uppercase;flex:1;text-align:center;min-width:100px;}
+.step-pill.active{background:#fff;color:var(--blue);box-shadow:0 2px 12px rgba(0,0,0,.08);font-weight:700;}
+.step-pill.done{color:var(--green);}
+
+/* PANELS */
+.wiz-panel{display:none;animation:fadeUp .4s var(--ease) forwards;}
+.wiz-panel.active{display:block;}
+.wiz-title{font-family:var(--ff-head);font-size:clamp(24px,4vw,34px);font-weight:700;color:var(--navy);margin-bottom:8px;letter-spacing:.5px;}
+.wiz-sub{font-size:16px;color:var(--text3);margin-bottom:32px;line-height:1.7;max-width:620px;}
+
+/* SERVICE CARDS */
+.svc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:14px;margin-bottom:20px;}
+.svc-card{padding:26px 16px 20px;border:2px solid var(--border);border-radius:14px;text-align:center;cursor:pointer;transition:all .3s var(--ease);background:#fff;position:relative;}
+.svc-card:hover{border-color:var(--blue);transform:translateY(-4px);box-shadow:0 10px 32px rgba(26,111,196,.1);}
+.svc-card.selected{border-color:var(--blue);background:var(--blue-light);box-shadow:0 10px 32px rgba(26,111,196,.15);}
+.svc-card.selected::after{content:'✓';position:absolute;top:10px;right:12px;color:var(--blue);font-weight:700;font-size:14px;}
+.svc-icon{font-size:34px;margin-bottom:12px;}
+.svc-name{font-family:var(--ff-head);font-size:15px;font-weight:700;color:var(--navy);letter-spacing:.3px;line-height:1.3;}
+
+/* SUB-OPTIONS */
+.sub-opts{background:var(--blue-light);border:1.5px solid rgba(26,111,196,.2);border-radius:10px;padding:16px 20px;margin-bottom:20px;animation:fadeUp .3s var(--ease) forwards;}
+.sub-opts-label{font-family:var(--ff-head);font-size:13px;font-weight:700;color:var(--blue);letter-spacing:1px;text-transform:uppercase;margin-bottom:12px;}
+.sub-chips{display:flex;gap:10px;flex-wrap:wrap;}
+.sub-chip{padding:9px 18px;border-radius:20px;border:2px solid rgba(26,111,196,.25);background:#fff;font-family:var(--ff-body);font-size:14px;font-weight:500;color:var(--text2);cursor:pointer;transition:all .25s;}
+.sub-chip:hover{border-color:var(--blue);color:var(--blue);}
+.sub-chip.active{background:var(--blue);color:#fff;border-color:var(--blue);}
+
+/* PROJECT CARDS */
+.proj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px;margin-bottom:24px;}
+.proj-card{border:2px solid var(--border);border-radius:14px;overflow:hidden;cursor:pointer;transition:all .3s var(--ease);background:#fff;position:relative;}
+.proj-card:hover{border-color:var(--blue);transform:translateY(-3px);box-shadow:0 10px 30px rgba(0,0,0,.08);}
+.proj-card.selected{border-color:var(--green);background:rgba(39,174,96,.03);}
+.proj-card.selected::after{content:'✓ Selected';position:absolute;top:10px;right:10px;background:var(--green);color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;font-family:var(--ff-mono);}
+.proj-img{height:130px;display:flex;align-items:center;justify-content:center;font-size:36px;background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 100%);}
+.proj-body{padding:14px 16px;}
+.proj-name{font-family:var(--ff-head);font-size:15px;font-weight:700;color:var(--navy);margin-bottom:5px;line-height:1.3;}
+.proj-desc{font-size:13px;color:var(--text3);line-height:1.55;}
+.proj-tag{display:inline-block;margin-top:8px;font-size:11px;font-family:var(--ff-mono);background:var(--offwhite);color:var(--text3);padding:3px 10px;border-radius:20px;}
+
+/* EDIT CHECKBOXES */
+.edit-checks{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin-bottom:22px;}
+.edit-check{display:flex;align-items:center;gap:10px;padding:12px 16px;border:2px solid var(--border);border-radius:8px;cursor:pointer;transition:all .25s;background:#fff;}
+.edit-check:hover{border-color:var(--blue);background:var(--blue-light);}
+.edit-check.checked{border-color:var(--orange);background:rgba(230,126,34,.06);}
+.edit-check input{display:none;}
+.check-box{width:18px;height:18px;border-radius:4px;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;color:#fff;font-size:12px;}
+.edit-check.checked .check-box{background:var(--orange);border-color:var(--orange);}
+.check-label{font-size:14px;font-weight:500;color:var(--text2);}
+
+/* FORM */
+.form-group{margin-bottom:20px;}
+.form-group label{display:block;font-family:var(--ff-head);font-weight:600;font-size:14px;color:var(--navy);margin-bottom:7px;letter-spacing:.3px;}
+.form-group label span{color:var(--red2);margin-left:2px;}
+.form-group input,.form-group textarea,.form-group select{width:100%;padding:12px 16px;border:2px solid var(--border);border-radius:8px;font-family:var(--ff-body);font-size:15px;color:var(--text);transition:border-color .2s,box-shadow .2s;background:#fff;outline:none;}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(26,111,196,.08);}
+.form-group textarea{min-height:150px;resize:vertical;line-height:1.6;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;}
+.field-hint{font-size:12px;color:var(--text3);margin-top:5px;}
+
+/* NOTE BOX */
+.note-box{background:var(--blue-light);border-left:4px solid var(--blue);border-radius:6px;padding:14px 18px;margin-bottom:24px;font-size:14px;color:var(--text2);line-height:1.6;}
+
+/* BUTTONS */
+.wiz-btns{display:flex;justify-content:space-between;align-items:center;margin-top:32px;flex-wrap:wrap;gap:12px;}
+.btn{font-family:var(--ff-head);font-weight:700;font-size:15px;letter-spacing:1px;text-transform:uppercase;padding:13px 34px;border-radius:6px;border:2px solid transparent;cursor:pointer;transition:all .3s var(--ease);display:inline-flex;align-items:center;gap:8px;}
+.btn-primary{background:var(--blue);color:#fff;border-color:var(--blue);}
+.btn-primary:hover{background:var(--navy);border-color:var(--navy);transform:translateY(-2px);}
+.btn-outline{background:#fff;color:var(--text2);border-color:var(--border);}
+.btn-outline:hover{border-color:var(--blue);color:var(--blue);}
+.btn-submit{background:linear-gradient(135deg,var(--red) 0%,#922b21 100%);color:#fff;border-color:var(--red);font-size:17px;padding:15px 44px;box-shadow:0 6px 24px rgba(192,57,43,.3);}
+.btn-submit:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(192,57,43,.4);}
+.btn-submit:disabled,.btn-primary:disabled{opacity:.5;cursor:not-allowed;transform:none!important;}
+.btn-reset{background:#fff;color:var(--blue);border-color:var(--blue);margin-top:20px;}
+.btn-reset:hover{background:var(--blue);color:#fff;}
+.spinner{width:18px;height:18px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none;}
+.loading .spinner{display:block;}
+.loading .btn-text{display:none;}
+
+/* SUCCESS */
+.success-box{text-align:center;padding:56px 24px 40px;}
+.success-icon{font-size:72px;margin-bottom:20px;display:block;}
+.success-title{font-family:var(--ff-head);font-size:clamp(30px,5vw,46px);font-weight:700;color:var(--green);margin-bottom:14px;}
+.success-msg{font-size:18px;color:var(--text2);line-height:1.85;max-width:540px;margin:0 auto 32px;}
+.phone-box{display:inline-flex;align-items:center;gap:14px;background:var(--navy);color:#fff;font-family:var(--ff-mono);font-size:22px;padding:18px 40px;border-radius:12px;letter-spacing:1.5px;animation:pulse 2.5s ease-in-out infinite;margin-bottom:10px;}
+.phone-box::before{content:'';width:10px;height:10px;border-radius:50%;background:var(--green);animation:blink 1.5s infinite;flex-shrink:0;}
+.success-note{font-size:14px;color:var(--text3);margin-bottom:32px;}
+
+/* FOOTER */
+footer{background:var(--navy);color:#fff;}
+.footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1.3fr;gap:40px;padding:60px 5vw;max-width:1400px;margin:0 auto;}
+.footer-heading{font-family:var(--ff-head);font-weight:700;font-size:14px;text-transform:uppercase;letter-spacing:2px;color:#fff;margin-bottom:18px;padding-bottom:10px;border-bottom:2px solid var(--blue);}
+.footer-link{display:block;font-size:14.5px;color:rgba(255,255,255,.55);padding:5px 0;transition:color .2s;}
+.footer-link:hover{color:var(--blue2);}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.08);padding:20px 5vw;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;max-width:1400px;margin:0 auto;}
+.footer-copy{font-size:13px;color:rgba(255,255,255,.35);}
+.wa-float{position:fixed;bottom:28px;right:28px;z-index:300;width:58px;height:58px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 24px rgba(37,211,102,.4);transition:transform .2s;}
+.wa-float:hover{transform:scale(1.12);}
+.toast{position:fixed;bottom:100px;right:28px;z-index:400;background:var(--navy);color:#fff;font-family:var(--ff-body);font-size:14px;font-weight:500;padding:14px 22px;border-radius:8px;box-shadow:0 8px 32px rgba(0,0,0,.2);transform:translateY(20px);opacity:0;transition:all .4s var(--ease);pointer-events:none;}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast.success{border-left:4px solid var(--green);}
+.toast.error{border-left:4px solid var(--red2);}
+
+@media(max-width:900px){.footer-grid{grid-template-columns:1fr 1fr;}.form-row-3{grid-template-columns:1fr 1fr;}}
+@media(max-width:768px){.nav-links,.nav-right .nav-phone,.nav-right .nav-wa{display:none;}.hamburger{display:flex;}.svc-grid{grid-template-columns:repeat(2,1fr);}.proj-grid{grid-template-columns:1fr}.form-row,.form-row-3{grid-template-columns:1fr;}.wiz-btns{flex-direction:column-reverse;align-items:stretch;}.wiz-btns .btn{width:100%;text-align:center;justify-content:center;}.footer-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:480px){.svc-grid{grid-template-columns:1fr;}.footer-grid{grid-template-columns:1fr;}.steps-bar{border-radius:12px;padding:4px;}.step-pill{font-size:10px;padding:7px 8px;min-width:60px;}}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <div class="nav-brand">
+    <img src="../logo-TDiS.png" alt="TDiS Logo">
+    <div class="nav-brand-text">
+      <div class="nav-brand-fullname">Tech Design Industrial Services</div>
+      <div class="nav-brand-tagline">Expertise for Turnkey Solution!</div>
+    </div>
+  </div>
+  <ul class="nav-links">
+    <li class="nav-item"><a href="../index.html">Home</a></li>
+    <li class="nav-item"><a href="../about/index.html">About Us</a></li>
+    <li class="nav-item">
+      <a href="../services/index.html">Services <span class="chevron"></span></a>
+      <div class="dropdown">
+        <a href="../services/index.html#process"><span class="drop-icon">⚗️</span>Process Engineering</a>
+        <a href="../services/index.html#mechanical"><span class="drop-icon">⚙️</span>Mechanical Engineering</a>
+        <a href="../services/index.html#ei"><span class="drop-icon">⚡</span>Electrical &amp; Instrumentation</a>
+        <a href="../services/index.html#piping"><span class="drop-icon">🔧</span>Piping &amp; Layout Engineering</a>
+        <a href="../services/index.html#structural"><span class="drop-icon">🏗️</span>Structural &amp; RCC Engineering</a>
+        <a href="../services/index.html#prebid"><span class="drop-icon">📋</span>Pre-Bidding Engineering</a>
+        <div class="drop-div"></div>
+        <a href="../services/index.html" class="view-all"><span class="drop-icon">→</span>View All Services</a>
+      </div>
+    </li>
+    <li class="nav-item">
+      <a href="../portfolio/index.html">Portfolio <span class="chevron"></span></a>
+      <div class="dropdown">
+        <a href="../portfolio/index.html"><span class="drop-icon">⚗️</span>Static Equipment</a>
+        <a href="../portfolio/index.html"><span class="drop-icon">🏗️</span>Structural</a>
+        <a href="../portfolio/index.html"><span class="drop-icon">🔧</span>Piping &amp; Skid Packages</a>
+        <a href="../portfolio/index.html"><span class="drop-icon">💻</span>FEA &amp; CFD Analysis</a>
+        <div class="drop-div"></div>
+        <a href="../portfolio/index.html" class="view-all"><span class="drop-icon">→</span>View Full Portfolio</a>
+      </div>
+    </li>
+    <li class="nav-item"><a href="../certification/index.html">Product Certification</a></li>
+    <li class="nav-item"><a href="index.html" class="active">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="nav-phone">+91 78382 08689</div>
+    <a href="https://wa.me/917838208689" class="nav-wa" target="_blank">
+      <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+      WhatsApp
+    </a>
+    <div class="hamburger" id="ham"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mob-menu" id="mobMenu">
+  <a href="../index.html">🏠 Home</a>
+  <a href="../about/index.html">👥 About Us</a>
+  <div class="mob-section">Services</div>
+  <a href="../services/index.html#process">⚗️ Process Engineering</a>
+  <a href="../services/index.html#mechanical">⚙️ Mechanical Engineering</a>
+  <a href="../services/index.html#ei">⚡ Electrical &amp; Instrumentation</a>
+  <a href="../services/index.html#piping">🔧 Piping &amp; Layout</a>
+  <a href="../services/index.html#structural">🏗️ Structural &amp; RCC</a>
+  <a href="../services/index.html#prebid">📋 Pre-Bidding Engineering</a>
+  <div class="mob-section">More</div>
+  <a href="../portfolio/index.html">📁 Portfolio</a>
+  <a href="../certification/index.html">🏆 Certification</a>
+  <a href="index.html">📞 Contact Us</a>
+</div>
+
+<!-- PAGE HEADING -->
+<section class="page-head">
+  <div class="page-head-tag">Start Your Project</div>
+  <h1>Let's Build <span>Something Great</span></h1>
+  <p>Select your service, explore our completed projects, share your requirements — and our expert engineering team will reach back to you within <strong>24 hours</strong>.</p>
+  <div class="page-stats">
+    <div class="stat"><div class="stat-num">150+</div><div class="stat-lbl">Projects Delivered</div></div>
+    <div class="stat"><div class="stat-num">8+</div><div class="stat-lbl">Years Experience</div></div>
+    <div class="stat"><div class="stat-num">50+</div><div class="stat-lbl">Happy Clients</div></div>
+    <div class="stat"><div class="stat-num">24h</div><div class="stat-lbl">Response Time</div></div>
+  </div>
+</section>
+
+<!-- WIZARD -->
+<div class="wizard-wrap">
+  <div class="steps-bar">
+    <div class="step-pill active" data-step="1">1 · Service</div>
+    <div class="step-pill" data-step="2">2 · Projects</div>
+    <div class="step-pill" data-step="3">3 · Edits</div>
+    <div class="step-pill" data-step="4">4 · Details</div>
+    <div class="step-pill" data-step="5">5 · Message</div>
+  </div>
+
+  <!-- STEP 1 -->
+  <div class="wiz-panel active" id="step1">
+    <div class="wiz-title">Select a Service</div>
+    <div class="wiz-sub">Choose the engineering discipline you need. We'll show you relevant projects and let you customize further in the next steps.</div>
+    <div class="svc-grid" id="svcGrid"></div>
+    <div id="subOptWrap" style="display:none;"></div>
+    <div class="wiz-btns"><div></div><button class="btn btn-primary" id="btnNext1" disabled>Next Step →</button></div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="wiz-panel" id="step2">
+    <div class="wiz-title">Explore Our Projects</div>
+    <div class="wiz-sub" id="projSub">Browse our completed projects below. Select any that are close to what you need — we can customize from there.</div>
+    <div class="proj-grid" id="projGrid"></div>
+    <div class="wiz-btns">
+      <button class="btn btn-outline" id="btnBack2">← Back</button>
+      <button class="btn btn-primary" id="btnNext2">Next Step →</button>
+    </div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="wiz-panel" id="step3">
+    <div class="wiz-title">Request Customizations</div>
+    <div class="wiz-sub">Tell us what changes or edits you need. Select all that apply and describe any specifics below.</div>
+    <div class="edit-checks" id="editChecks"></div>
+    <div class="form-group">
+      <label for="editReq">Additional Custom Requirements</label>
+      <textarea id="editReq" placeholder="Describe any specific changes not listed above — dimensions, materials, standards, add-ons, operating conditions..."></textarea>
+    </div>
+    <div class="wiz-btns">
+      <button class="btn btn-outline" id="btnBack3">← Back</button>
+      <button class="btn btn-primary" id="btnNext3">Next Step →</button>
+    </div>
+  </div>
+
+  <!-- STEP 4 -->
+  <div class="wiz-panel" id="step4">
+    <div class="wiz-title">Your Contact Details</div>
+    <div class="wiz-sub">Please fill in your details so our team can reach you with a tailored response. Fields marked * are required.</div>
+    <div class="form-row">
+      <div class="form-group"><label for="fname">Full Name <span>*</span></label><input type="text" id="fname" placeholder="John Doe" required></div>
+      <div class="form-group"><label for="femail">Email Address <span>*</span></label><input type="email" id="femail" placeholder="john@company.com" required></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label for="fphone">Phone / WhatsApp <span>*</span></label><input type="tel" id="fphone" placeholder="+91 98765 43210" required></div>
+      <div class="form-group"><label for="fcompany">Company Name</label><input type="text" id="fcompany" placeholder="Your Company Ltd."></div>
+    </div>
+    <div class="form-row-3">
+      <div class="form-group">
+        <label for="findustry">Industry Type <span>*</span></label>
+        <select id="findustry" required>
+          <option value="">— Select Industry —</option>
+          <option>Oil &amp; Gas</option>
+          <option>Petrochemical</option>
+          <option>Chemical</option>
+          <option>Pharmaceutical</option>
+          <option>Power &amp; Energy</option>
+          <option>Food &amp; Beverage</option>
+          <option>Water Treatment</option>
+          <option>Steel &amp; Metal</option>
+          <option>Cement &amp; Mining</option>
+          <option>Paper &amp; Pulp</option>
+          <option>Fertilizer</option>
+          <option>Defence</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="furgency">Project Urgency <span>*</span></label>
+        <select id="furgency" required>
+          <option value="">— Select Urgency —</option>
+          <option>Normal (3–4 weeks)</option>
+          <option>Priority (1–2 weeks)</option>
+          <option>Urgent (within 1 week)</option>
+          <option>ASAP (2–3 days)</option>
+          <option>Flexible / TBD</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="fbudget">Estimated Budget</label>
+        <select id="fbudget">
+          <option value="">— Optional —</option>
+          <option>Below ₹1 Lakh</option>
+          <option>₹1L – ₹5L</option>
+          <option>₹5L – ₹10L</option>
+          <option>₹10L – ₹25L</option>
+          <option>₹25L – ₹50L</option>
+          <option>₹50L+</option>
+          <option>Prefer to discuss</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="fref">Preferred Communication</label>
+        <select id="fref">
+          <option value="">— Select —</option>
+          <option>Email</option>
+          <option>Phone Call</option>
+          <option>WhatsApp</option>
+          <option>Video Call (Teams/Zoom)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="fheard">How Did You Hear About Us?</label>
+        <select id="fheard">
+          <option value="">— Select —</option>
+          <option>Google Search</option>
+          <option>LinkedIn</option>
+          <option>Referral / Word of Mouth</option>
+          <option>Direct / Known Previously</option>
+          <option>Exhibition / Conference</option>
+          <option>Our Website Portfolio</option>
+          <option>Other</option>
+        </select>
+      </div>
+    </div>
+    <div class="wiz-btns">
+      <button class="btn btn-outline" id="btnBack4">← Back</button>
+      <button class="btn btn-primary" id="btnNext4" disabled>Next Step →</button>
+    </div>
+  </div>
+
+  <!-- STEP 5 -->
+  <div class="wiz-panel" id="step5">
+    <div class="wiz-title">Your Project Requirements</div>
+    <div class="wiz-sub">This is your space — share everything about your project. The more detail you provide, the more precise our proposal will be.</div>
+    <div class="note-box">💡 Feel free to mention: project location, applicable standards (ASME / IS / EN / API), operating conditions, reference documents, or anything specific you have in mind.</div>
+    <div class="form-group">
+      <label for="fmessage">Full Project Description <span>*</span></label>
+      <textarea id="fmessage" style="min-height:200px;" placeholder="Describe your project in detail — scope of work, operating pressure/temperature, fluid/medium, standards to follow, design basis, deliverables expected, special requirements, timeline context...&#10;&#10;E.g. We require mechanical design of a vertical pressure vessel (V-101) for steam service at 15 bar / 250°C, ASME VIII Div.1, material SA-516 Gr.70, with 4 nozzles. We need GA drawing, nozzle schedule and nametag."></textarea>
+      <div class="field-hint">Minimum detail helps us respond with an accurate quote faster.</div>
+    </div>
+    <div class="form-group">
+      <label for="fattach">Reference Documents</label>
+      <input type="text" id="fattach" placeholder="Paste a Google Drive / Dropbox / WeTransfer link if you have drawings, specs or reference files to share">
+      <div class="field-hint">You can also email attachments to info@tdis.co.in after submitting.</div>
+    </div>
+    <div class="wiz-btns">
+      <button class="btn btn-outline" id="btnBack5">← Back</button>
+      <button class="btn btn-submit" id="btnSubmit">
+        <div class="spinner"></div>
+        <span class="btn-text">Submit Inquiry →</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- SUCCESS -->
+  <div class="wiz-panel" id="stepSuccess">
+    <div class="success-box">
+      <span class="success-icon">✅</span>
+      <div class="success-title">Inquiry Submitted!</div>
+      <div class="success-msg">Thank you! Your inquiry has been received and a confirmation email is on its way. Our engineering team will review your requirements and respond within <strong>24 hours</strong>. For urgent matters, call or WhatsApp us directly:</div>
+      <div class="phone-box">+91 78382 08689</div>
+      <div class="success-note">Mon – Sat &nbsp;·&nbsp; 9:00 AM – 6:30 PM IST</div>
+      <div><button class="btn btn-reset" id="btnReset">← Submit Another Inquiry</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div style="font-family:var(--ff-head);font-weight:700;font-size:22px;color:#fff;margin-bottom:12px;">TDiS</div>
+      <p style="font-size:14px;color:rgba(255,255,255,.5);line-height:1.8;margin-bottom:16px;">Tech Design Industrial Services — delivering precision engineering consultancy for industries that power the world.</p>
+      <p style="font-family:var(--ff-mono);font-size:11px;color:rgba(255,255,255,.3);letter-spacing:1.5px;margin-bottom:20px;">Est. 2017 &nbsp;·&nbsp; MSME Certified &nbsp;·&nbsp; Pune, India</p>
+      <a href="index.html" style="display:inline-flex;align-items:center;gap:8px;background:var(--red);color:#fff;font-family:var(--ff-body);font-size:14px;font-weight:600;padding:11px 24px;border-radius:5px;">Start a Project &rarr;</a>
+    </div>
+    <div>
+      <div class="footer-heading">Navigation</div>
+      <a href="../index.html" class="footer-link">Home</a>
+      <a href="../about/index.html" class="footer-link">About Us</a>
+      <a href="../services/index.html" class="footer-link">Services</a>
+      <a href="../portfolio/index.html" class="footer-link">Portfolio</a>
+      <a href="../certification/index.html" class="footer-link">Certification</a>
+      <a href="index.html" class="footer-link">Contact</a>
+    </div>
+    <div>
+      <div class="footer-heading">Services</div>
+      <a href="../services/index.html#process" class="footer-link">Process Engineering</a>
+      <a href="../services/index.html#mechanical" class="footer-link">Mechanical Engineering</a>
+      <a href="../services/index.html#ei" class="footer-link">Electrical &amp; Instrumentation</a>
+      <a href="../services/index.html#piping" class="footer-link">Piping &amp; Layout</a>
+      <a href="../services/index.html#structural" class="footer-link">Structural &amp; RCC</a>
+      <a href="../services/index.html#prebid" class="footer-link">Pre-Bidding Engineering</a>
+    </div>
+    <div>
+      <div class="footer-heading">Get In Touch</div>
+      <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:20px;">
+        <div style="display:flex;gap:12px;align-items:flex-start;"><span style="font-size:16px;flex-shrink:0;margin-top:2px;">📞</span><a href="tel:+917838208689" class="footer-link">+91 78382 08689</a></div>
+        <div style="display:flex;gap:12px;align-items:flex-start;"><span style="font-size:16px;flex-shrink:0;margin-top:2px;">✉️</span><a href="mailto:info@tdis.co.in" class="footer-link">info@tdis.co.in</a></div>
+        <div style="display:flex;gap:12px;align-items:flex-start;"><span style="font-size:16px;flex-shrink:0;margin-top:2px;">📍</span><span style="font-size:14px;color:rgba(255,255,255,.55);line-height:1.6;">Office No-405, Sukhawani Boulevard Commerz, Pashan Sus-Road, Pune – 411021</span></div>
+      </div>
+      <a href="https://wa.me/917838208689" target="_blank" style="display:inline-flex;align-items:center;gap:8px;background:var(--red);color:#fff;font-family:var(--ff-body);font-size:14px;font-weight:600;padding:11px 22px;border-radius:5px;">💬 Chat on WhatsApp</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 Tech Design Industrial Services (TDiS). All rights reserved.</div>
+    <div style="display:flex;gap:22px;"><a href="#" style="font-size:13px;color:rgba(255,255,255,.35);">Privacy Policy</a><a href="#" style="font-size:13px;color:rgba(255,255,255,.35);">Terms of Use</a></div>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/917838208689" target="_blank" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24" width="30" height="30" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+</a>
+
+<div class="toast" id="toast"></div>
+
+<!-- JS PLACEHOLDER - will be replaced -->
+<script>
+/* ============================================================
+   ✅  EMAILJS CONFIGURATION  — Replace the 3 values below
+   1. Go to https://www.emailjs.com → Sign Up (free)
+   2. Add Email Service (Gmail / info@tdis.co.in)  → copy Service ID
+   3. Create Email Template → copy Template ID
+   4. Account → API Keys → copy Public Key
+   ============================================================ */
+const EMAILJS_PUBLIC_KEY  = 'YOUR_PUBLIC_KEY';
+const EMAILJS_SERVICE_ID  = 'YOUR_SERVICE_ID';
+const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
+
+/* ============================================================
+   ✅  GOOGLE APPS SCRIPT — Replace with your deployed URL
+   Steps inside contact/GOOGLE_SHEET_SETUP.md (created below)
+   ============================================================ */
+const GOOGLE_SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL';
+
+/* Init EmailJS */
+emailjs.init(EMAILJS_PUBLIC_KEY);
+
+/* ===== DATA ===== */
+const SERVICES = [
+  {id:'process',   icon:'⚗️', name:'Process Engineering'},
+  {id:'mechanical',icon:'⚙️', name:'Mechanical Engineering'},
+  {id:'piping',    icon:'🔧', name:'Piping & Layout'},
+  {id:'fea',       icon:'💻', name:'FEA & CFD Analysis'},
+  {id:'structural',icon:'🏗️', name:'Structural & RCC'},
+  {id:'ei',        icon:'⚡', name:'Electrical & Instrumentation'},
+  {id:'plant3d',   icon:'🖥️', name:'Plant 3D Modeling'},
+  {id:'prebid',    icon:'📋', name:'Pre-Bid Engineering'}
+];
+
+const SUB_OPTS = {
+  process:    ['Process Design Only','Design + Simulation','PFD / P&ID Development','Mass & Energy Balance','Full Process Package'],
+  mechanical: ['Equipment Design Only','Design + Drawings','ASME / IS Code Compliance','Vendor Document Review','Full Mechanical Package'],
+  piping:     ['Piping Stress Analysis','Isometric Drawings','Plant Layout Design','Support Design','Full Piping Package'],
+  fea:        ['FEA (Finite Element Analysis)','CFD (Fluid Dynamics)','FEA + CFD Combined','Fatigue & Fracture Analysis','Thermal Analysis'],
+  structural: ['Steel Structure Design','RCC Design','Pipe Rack Engineering','Foundation Design','Steel + RCC Combined'],
+  ei:         ['Electrical SLD','Instrumentation P&ID','Control Panel Engineering','Safety System (SIL/SIS)','Full E&I Package'],
+  plant3d:    ['2D CAD Drawings','3D Plant Modeling (PDMS/E3D)','AutoCAD Plant 3D','3D Scan to Model','Full 3D Suite'],
+  prebid:     ['Cost Estimation / BOQ','Technical Proposal','Techno-Commercial Proposal','Vendor Bid Evaluation','Full Pre-Bid Package']
+};
+
+const PROJECTS = {
+  process:[
+    {name:'Distillation Column Design',    desc:'Multi-stage distillation with heat integration and feed tray optimization for refinery application.',tag:'Refinery'},
+    {name:'Reactor Vessel Engineering',    desc:'Process design for exothermic batch reactor with cooling jacket and agitator sizing.',tag:'Chemical'},
+    {name:'Mass & Energy Balance Study',   desc:'Complete MEB for a gas processing plant with simulation in HYSYS.',tag:'Oil & Gas'},
+    {name:'P&ID Development Package',      desc:'Full P&ID suite for a water treatment facility with control philosophy.',tag:'Water Treatment'},
+    {name:'Skid Mounted Process Package',  desc:'Compact chemical dosing skid with inline mixing system and instrumentation.',tag:'Pharmaceutical'},
+    {name:'Process Safety Review (HAZOP)', desc:'Structured HAZOP study documentation for a high-pressure gas compression facility.',tag:'Petrochemical'}
+  ],
+  mechanical:[
+    {name:'Vertical Pressure Vessel – ASME VIII',   desc:'Code-compliant design with nozzle schedule, GA drawing and nameplate data. SS316L material.',tag:'ASME Div.1'},
+    {name:'Shell & Tube Heat Exchanger',            desc:'TEMA-R heat exchanger design with thermal and mechanical calculations. HTRI validated.',tag:'TEMA'},
+    {name:'Deaerator Engineering Package',          desc:'Spray-tray type deaerator with detailed mechanical drawing set and nozzle loading report.',tag:'Power Plant'},
+    {name:'Storage Tank Design (API 650)',          desc:'Atmospheric storage tank for crude oil service, complete with wind/seismic checks.',tag:'API 650'},
+    {name:'Agitated Reactor Vessel',               desc:'Jacketed reactor with top-entry agitator, mechanical seal and full drawing package.',tag:'Chemical'},
+    {name:'Filter Vessel Engineering',             desc:'Multi-element filter housing for high-pressure gas service with quick-open closure design.',tag:'Oil & Gas'}
+  ],
+  piping:[
+    {name:'Caesar II Stress Analysis',          desc:'Thermal and sustained stress analysis for high-temperature steam piping per ASME B31.3.',tag:'ASME B31.3'},
+    {name:'Plant Layout & 3D Routing',          desc:'Full clash-free 3D piping layout in PDMS for a petrochemical processing facility.',tag:'Petrochemical'},
+    {name:'Isometric Drawing Package',          desc:'Production-ready isometric drawings with full BOM and spool drawings for fabrication.',tag:'Fabrication'},
+    {name:'Pipe Support Design',                desc:'Custom spring hanger, variable spring and anchors designed for a large piping network.',tag:'Support Design'},
+    {name:'Underground Piping Design',          desc:'Buried piping layout with cathodic protection and soil-pipe interaction analysis.',tag:'Civil'},
+    {name:'Flare Tip & Blowdown System',        desc:'Flare piping network design and thermal radiation study per API 521.',tag:'API 521'}
+  ],
+  fea:[
+    {name:'ANSYS FEA – Nozzle Loading',        desc:'Detailed WRC 537 and FEA for combined nozzle loads on a reactor vessel head.',tag:'ANSYS'},
+    {name:'CFD Internal Flow Simulation',      desc:'Flow distribution and pressure drop optimization for a multi-path heat exchanger header.',tag:'CFD'},
+    {name:'Thermal-Structural Coupled FEA',    desc:'Transient thermal-structural analysis for a fired heater tube sheet under startup loads.',tag:'Thermal'},
+    {name:'Fatigue Life Assessment',           desc:'Cycle counting and fatigue life prediction for a pressure vessel with cyclic loading.',tag:'Fatigue'},
+    {name:'Seismic FEA Analysis',              desc:'Non-linear time-history seismic analysis of a large vertical tower structure.',tag:'Seismic'},
+    {name:'Lifting Lug & Tailing Lug Analysis',desc:'Full FEA-based lifting analysis for a 120-ton column with multiple lift scenarios.',tag:'Lifting'}
+  ],
+  structural:[
+    {name:'Multi-Level Steel Structure',    desc:'STAAD.Pro design of a 4-level industrial steel structure for equipment mounting.',tag:'STAAD.Pro'},
+    {name:'Elevated Pipe Rack Design',      desc:'Structural design and GA drawings for a 200m fireproofed pipe rack with cable trays.',tag:'Pipe Rack'},
+    {name:'Equipment Foundation (RCC)',     desc:'Reinforced concrete plinth and foundation for a 80-ton horizontal vessel.',tag:'RCC'},
+    {name:'Shed & Storage Structure',       desc:'Pre-engineered shed design with gable end frames and crane beam integration.',tag:'PEB'},
+    {name:'Chimney & Stack Design',         desc:'Self-supporting steel stack design with wind and seismic analysis to IS 875.',tag:'IS 875'},
+    {name:'Mezzanine Floor Design',         desc:'Structural mezzanine with grating and handrail for an operations access platform.',tag:'Platform'}
+  ],
+  ei:[
+    {name:'Single Line Diagram (SLD)',          desc:'11kV/415V SLD for an industrial complex with MCC, PDB and earthing layout.',tag:'Power'},
+    {name:'Instrument Datasheets (IDS)',        desc:'Complete instrument datasheet package for 200+ instruments for a chemical plant.',tag:'ISA'},
+    {name:'Control Panel Engineering',          desc:'PLC-based control panel design with I/O schedule, loop drawings and panel GA.',tag:'PLC/SCADA'},
+    {name:'Safety Instrumented System (SIS)',   desc:'SIL-2 compliant SIS design for a high-pressure gas separation process.',tag:'SIL-2'},
+    {name:'Hazardous Area Classification',      desc:'Zone classification drawing and Ex-equipment selection schedule for a tank farm.',tag:'ATEX'},
+    {name:'Cable Tray Layout & Cable Schedule', desc:'Full cable routing, cable schedule and termination diagrams for a power plant.',tag:'Electrical'}
+  ],
+  plant3d:[
+    {name:'AVEVA E3D / PDMS Model',         desc:'Full plant 3D model development in AVEVA E3D with equipment, piping and structure.',tag:'AVEVA'},
+    {name:'AutoCAD Plant 3D Model',         desc:'Complete plant model with clash detection report and isometric extraction.',tag:'AutoCAD'},
+    {name:'3D Scan to Model (Point Cloud)', desc:'Reverse engineering of existing plant into accurate 3D model from laser scan data.',tag:'Point Cloud'},
+    {name:'Skid 3D Modeling & Design',      desc:'Detailed 3D model of a process skid with fabrication drawings and BOM.',tag:'Skid'},
+    {name:'3D Coordination Drawings',       desc:'MEP coordination drawings with clash resolution for a multi-discipline project.',tag:'BIM'},
+    {name:'Animation & Walkthrough',        desc:'Photorealistic 3D walkthrough animation for client presentation and FEED review.',tag:'Visualization'}
+  ],
+  prebid:[
+    {name:'Detailed Cost Estimation',       desc:'Material, manpower and engineering cost estimation with ± 10% accuracy for FEED.',tag:'Cost'},
+    {name:'Bill of Quantities (BOQ)',        desc:'Itemized BOQ for civil, structural, piping and equipment for a greenfield project.',tag:'BOQ'},
+    {name:'Technical Proposal Package',     desc:'Full technical proposal with scope, methodology, deliverables and manhour estimate.',tag:'Proposal'},
+    {name:'Techno-Commercial Report',       desc:'Integrated technical + commercial bid document ready for client submission.',tag:'Bid'},
+    {name:'Vendor Bid Evaluation (TBE)',    desc:'Technical bid evaluation matrix and recommendation report for equipment procurement.',tag:'Procurement'},
+    {name:'Feasibility Study Report',       desc:'Conceptual feasibility study with capacity analysis and preliminary layout.',tag:'Feasibility'}
+  ]
+};
+
+const EDIT_OPTIONS = [
+  {id:'material',  label:'Material Change / Upgrade'},
+  {id:'resize',    label:'Dimension Resizing'},
+  {id:'nozzle',    label:'Add / Modify Nozzles'},
+  {id:'pressure',  label:'Pressure / Temperature Rating Change'},
+  {id:'standard',  label:'Design Standard Change (ASME / IS / EN / API)'},
+  {id:'insulation',label:'Add Insulation / Fireproofing Detail'},
+  {id:'foundation',label:'Add Foundation / Support Detail'},
+  {id:'drawing',   label:'Drawing Format / Title Block Update'},
+  {id:'bom',       label:'Update Bill of Materials'},
+  {id:'calcs',     label:'Revised Calculation Report'},
+  {id:'nameplate', label:'Nameplate / Datasheet Update'},
+  {id:'scope',     label:'Expand Scope of Work'}
+];
+
+/* ===== STATE ===== */
+let currentStep    = 1;
+let selectedService= null;
+let selectedScope  = null;
+let selectedProjs  = [];
+let checkedEdits   = [];
+
+/* ===== TOAST ===== */
+function showToast(msg, type='success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show ' + type;
+  setTimeout(() => t.className = 'toast', 3500);
+}
+
+/* ===== NAVBAR HAMBURGER ===== */
+document.getElementById('ham').addEventListener('click', function() {
+  const mob = document.getElementById('mobMenu');
+  mob.classList.toggle('open');
+  const s = this.querySelectorAll('span');
+  const open = mob.classList.contains('open');
+  s[0].style.transform = open ? 'rotate(45deg) translate(5px,5px)' : '';
+  s[1].style.opacity   = open ? '0' : '1';
+  s[2].style.transform = open ? 'rotate(-45deg) translate(5px,-5px)' : '';
+});
+
+/* ===== WIZARD NAV ===== */
+function goToStep(n) {
+  currentStep = n;
+  document.querySelectorAll('.wiz-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.step-pill').forEach(p => {
+    const s = parseInt(p.dataset.step);
+    p.classList.remove('active','done');
+    if (s < n)  p.classList.add('done');
+    if (s === n) p.classList.add('active');
+  });
+  const id = n <= 5 ? 'step' + n : 'stepSuccess';
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({top: document.querySelector('.wizard-wrap').offsetTop - 100, behavior:'smooth'});
+}
+
+/* ===== STEP 1 – SERVICE ===== */
+(function renderServices() {
+  const grid = document.getElementById('svcGrid');
+  SERVICES.forEach(s => {
+    const card = document.createElement('div');
+    card.className = 'svc-card';
+    card.dataset.id = s.id;
+    card.innerHTML = `<div class="svc-icon">${s.icon}</div><div class="svc-name">${s.name}</div>`;
+    card.addEventListener('click', () => {
+      document.querySelectorAll('.svc-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      selectedService = s.id;
+      selectedScope   = null;
+      document.getElementById('btnNext1').disabled = false;
+      renderSubOpts(s.id);
+    });
+    grid.appendChild(card);
+  });
+})();
+
+function renderSubOpts(svcId) {
+  const wrap = document.getElementById('subOptWrap');
+  wrap.style.display = 'block';
+  const opts = SUB_OPTS[svcId] || [];
+  wrap.innerHTML = `<div class="sub-opts"><div class="sub-opts-label">Select Scope of Work</div><div class="sub-chips" id="subChips">${opts.map(o=>`<div class="sub-chip" data-val="${o}">${o}</div>`).join('')}</div></div>`;
+  wrap.querySelectorAll('.sub-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      wrap.querySelectorAll('.sub-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      selectedScope = chip.dataset.val;
+    });
+  });
+}
+
+document.getElementById('btnNext1').addEventListener('click', () => {
+  if (!selectedService) return;
+  renderProjects(selectedService);
+  goToStep(2);
+});
+
+/* ===== STEP 2 – PROJECTS ===== */
+function renderProjects(svcId) {
+  const grid = document.getElementById('projGrid');
+  grid.innerHTML = '';
+  selectedProjs = [];
+  const svc   = SERVICES.find(s => s.id === svcId);
+  document.getElementById('projSub').textContent = `Here are some of our completed ${svc ? svc.name : ''} projects. Select any that are similar to your requirement — we can customise from there, or skip ahead.`;
+  (PROJECTS[svcId] || []).forEach(p => {
+    const card = document.createElement('div');
+    card.className = 'proj-card';
+    card.innerHTML = `<div class="proj-img">${svc.icon}</div><div class="proj-body"><div class="proj-name">${p.name}</div><div class="proj-desc">${p.desc}</div><div class="proj-tag">${p.tag}</div></div>`;
+    card.addEventListener('click', () => {
+      card.classList.toggle('selected');
+      if (card.classList.contains('selected')) selectedProjs.push(p.name);
+      else selectedProjs = selectedProjs.filter(n => n !== p.name);
+    });
+    grid.appendChild(card);
+  });
+}
+
+document.getElementById('btnBack2').addEventListener('click', () => goToStep(1));
+document.getElementById('btnNext2').addEventListener('click', () => { renderEditChecks(); goToStep(3); });
+
+/* ===== STEP 3 – EDITS ===== */
+function renderEditChecks() {
+  const wrap = document.getElementById('editChecks');
+  wrap.innerHTML = '';
+  checkedEdits = [];
+  EDIT_OPTIONS.forEach(opt => {
+    const el = document.createElement('div');
+    el.className = 'edit-check';
+    el.dataset.id = opt.id;
+    el.innerHTML = `<div class="check-box">✓</div><span class="check-label">${opt.label}</span>`;
+    el.addEventListener('click', () => {
+      el.classList.toggle('checked');
+      if (el.classList.contains('checked')) checkedEdits.push(opt.label);
+      else checkedEdits = checkedEdits.filter(l => l !== opt.label);
+    });
+    wrap.appendChild(el);
+  });
+}
+
+document.getElementById('btnBack3').addEventListener('click', () => goToStep(2));
+document.getElementById('btnNext3').addEventListener('click', () => goToStep(4));
+
+/* ===== STEP 4 – DETAILS ===== */
+function validateStep4() {
+  const ok = document.getElementById('fname').value.trim() &&
+             document.getElementById('femail').value.trim() &&
+             document.getElementById('fphone').value.trim() &&
+             document.getElementById('findustry').value &&
+             document.getElementById('furgency').value;
+  document.getElementById('btnNext4').disabled = !ok;
+}
+['fname','femail','fphone','fcompany','findustry','furgency','fbudget','fref','fheard'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('input', validateStep4);
+  if (el) el.addEventListener('change', validateStep4);
+});
+
+document.getElementById('btnBack4').addEventListener('click', () => goToStep(3));
+document.getElementById('btnNext4').addEventListener('click', () => { if (!document.getElementById('btnNext4').disabled) goToStep(5); });
+
+/* ===== STEP 5 – MESSAGE & SUBMIT ===== */
+document.getElementById('btnBack5').addEventListener('click', () => goToStep(4));
+
+document.getElementById('btnSubmit').addEventListener('click', async () => {
+  const svc    = SERVICES.find(s => s.id === selectedService);
+  const btn    = document.getElementById('btnSubmit');
+
+  /* Build payload */
+  const data = {
+    timestamp:    new Date().toLocaleString('en-IN',{timeZone:'Asia/Kolkata'}),
+    service:      svc ? svc.name : '',
+    scope:        selectedScope || 'Not specified',
+    projects:     selectedProjs.length ? selectedProjs.join(', ') : 'None selected',
+    edit_checks:  checkedEdits.length  ? checkedEdits.join(', ')  : 'None',
+    edit_custom:  document.getElementById('editReq').value.trim()  || '—',
+    name:         document.getElementById('fname').value.trim(),
+    email:        document.getElementById('femail').value.trim(),
+    phone:        document.getElementById('fphone').value.trim(),
+    company:      document.getElementById('fcompany').value.trim() || '—',
+    industry:     document.getElementById('findustry').value       || '—',
+    urgency:      document.getElementById('furgency').value        || '—',
+    budget:       document.getElementById('fbudget').value         || '—',
+    comm_pref:    document.getElementById('fref').value            || '—',
+    heard_from:   document.getElementById('fheard').value          || '—',
+    message:      document.getElementById('fmessage').value.trim() || '—',
+    attachments:  document.getElementById('fattach').value.trim()  || '—'
+  };
+
+  /* Loading state */
+  btn.disabled = true;
+  btn.classList.add('loading');
+
+  let emailOk = false;
+  let sheetOk = false;
+
+  /* 1. EmailJS */
+  try {
+    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, data);
+    emailOk = true;
+  } catch(e) {
+    console.warn('EmailJS error:', e);
+  }
+
+  /* 2. Google Sheets */
+  try {
+    await fetch(GOOGLE_SCRIPT_URL, {
+      method:'POST',
+      mode:'no-cors',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(data)
+    });
+    sheetOk = true;
+  } catch(e) {
+    console.warn('Google Script error:', e);
+  }
+
+  /* 3. localStorage backup */
+  try {
+    const stored = JSON.parse(localStorage.getItem('tdis_inquiries') || '[]');
+    stored.push(data);
+    localStorage.setItem('tdis_inquiries', JSON.stringify(stored));
+  } catch(e) {}
+
+  btn.disabled = false;
+  btn.classList.remove('loading');
+
+  if (emailOk || sheetOk) {
+    showSuccess();
+  } else {
+    showToast('⚠️ Submission failed. Please call us directly at +91 78382 08689', 'error');
+  }
+});
+
+/* ===== SUCCESS & RESET ===== */
+function showSuccess() {
+  document.querySelectorAll('.step-pill').forEach(p => { p.classList.add('done'); p.classList.remove('active'); });
+  document.querySelectorAll('.wiz-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('stepSuccess').classList.add('active');
+  window.scrollTo({top: document.querySelector('.wizard-wrap').offsetTop - 100, behavior:'smooth'});
+}
+
+document.getElementById('btnReset').addEventListener('click', resetForm);
+
+function resetForm() {
+  /* Reset state */
+  selectedService = null;
+  selectedScope   = null;
+  selectedProjs   = [];
+  checkedEdits    = [];
+
+  /* Reset UI */
+  document.querySelectorAll('.svc-card').forEach(c => c.classList.remove('selected'));
+  document.getElementById('subOptWrap').style.display = 'none';
+  document.getElementById('subOptWrap').innerHTML = '';
+  document.getElementById('projGrid').innerHTML = '';
+  document.getElementById('editChecks').innerHTML = '';
+  document.getElementById('editReq').value  = '';
+  document.getElementById('fname').value    = '';
+  document.getElementById('femail').value   = '';
+  document.getElementById('fphone').value   = '';
+  document.getElementById('fcompany').value = '';
+  document.getElementById('findustry').value= '';
+  document.getElementById('furgency').value = '';
+  document.getElementById('fbudget').value  = '';
+  document.getElementById('fref').value     = '';
+  document.getElementById('fheard').value   = '';
+  document.getElementById('fmessage').value = '';
+  document.getElementById('fattach').value  = '';
+  document.getElementById('btnNext1').disabled = true;
+  document.getElementById('btnNext4').disabled = true;
+
+  /* Reset pills */
+  document.querySelectorAll('.step-pill').forEach(p => { p.classList.remove('done','active'); });
+
+  goToStep(1);
+}
+</script>
+</body>
+</html>
