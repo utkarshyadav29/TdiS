@@ -57,13 +57,13 @@ img{max-width:100%;display:block}
 .nav-brand-text{display:flex;flex-direction:column;justify-content:center;gap:2px;}
 .nav-brand-fullname{font-family:var(--ff-head);font-weight:700;font-size:17px;color:var(--navy);letter-spacing:.5px;white-space:nowrap;line-height:1.2;}
 .nav-brand-tagline{font-family:var(--ff-head);font-weight:400;font-size:13px;color:red;letter-spacing:.5px;white-space:nowrap;font-style:italic;}
-.nav-links{display:flex;align-items:center;gap:1px;}
-.nav-item{position:relative;}
-.nav-item>a{display:flex;align-items:center;gap:5px;font-family:var(--ff-body);font-size:15px;font-weight:600;letter-spacing:.3px;color:var(--text2);padding:8px 13px;border-radius:4px;transition:color .2s,background .2s;white-space:nowrap;}
-.nav-item>a:hover,.nav-item>a.active{color:var(--blue);background:var(--blue-light);}
+.nav-links{display:flex;align-items:center;gap:1px;height:100%;}
+.nav-item{position:relative;height:100%;display:flex;align-items:center;}
+.nav-item>a{display:flex;align-items:center;gap:5px;font-family:var(--ff-body);font-size:15px;font-weight:600;letter-spacing:.3px;color:var(--text2);padding:0 15px;height:100%;transition:color .2s,background .2s;white-space:nowrap;}
+.nav-item>a:hover,.nav-item>a.active{color:var(--blue);background:var(--blue-light);border-bottom:3px solid var(--blue);}
 .chevron{display:inline-block;width:10px;height:10px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg) translateY(-2px);transition:transform .25s;}
 .nav-item:hover>a .chevron{transform:rotate(-135deg) translateY(-2px);}
-.dropdown{position:absolute;top:calc(100% + 6px);left:0;background:#fff;border:1px solid var(--border);border-radius:10px;min-width:270px;padding:8px 0;opacity:0;visibility:hidden;transform:translateY(8px);transition:all .25s var(--ease);box-shadow:0 20px 60px rgba(0,0,0,0.12);}
+.dropdown{position:absolute;top:100%;left:0;background:#fff;border:1px solid var(--border);border-radius:10px;min-width:270px;padding:8px 0;opacity:0;visibility:hidden;transform:translateY(8px);transition:all .25s var(--ease);box-shadow:0 20px 60px rgba(0,0,0,0.12);}
 .nav-item:hover .dropdown{opacity:1;visibility:visible;transform:translateY(0);}
 .dropdown a{display:flex;align-items:center;gap:10px;font-size:13.5px;font-weight:500;color:var(--text2);padding:10px 20px;border-left:3px solid transparent;transition:all .2s;}
 .dropdown a:hover{color:var(--blue);background:var(--blue-light);border-left-color:var(--blue);}
@@ -434,18 +434,18 @@ img{max-width:100%;display:block}
     <li class="nav-item">
       <a href="portfolio/index.html">Portfolio <span class="chevron"></span></a>
       <div class="dropdown">
-        <a href="portfolio/index.html#st"><span class="drop-icon">⚗️</span>Static Equipment</a>
-        <a href="portfolio/index.html#struct"><span class="drop-icon">🏗️</span>Structural</a>
-        <a href="portfolio/index.html#pns"><span class="drop-icon">🔧</span>Piping & Skid Packages</a>
-        <a href="portfolio/index.html#fnc"><span class="drop-icon">💻</span>FEA & CFD Analysis</a>
-        <a href="portfolio/index.html#3d"><span class="drop-icon">🖥️</span>3D Modelling & Detailing</a>
-        <a href="portfolio/index.html#st"><span class="drop-icon">🛢️</span>Storage Tanks</a>
-        <a href="portfolio/index.html#eni"><span class="drop-icon">⚡</span>Electrical & Instrumentation</a>
+        <a href="portfolio/index.html#static-equipment"><span class="drop-icon">⚗️</span>Static Equipment</a>
+        <a href="portfolio/index.html#structural"><span class="drop-icon">🏗️</span>Structural</a>
+        <a href="portfolio/index.html#piping-and-skid"><span class="drop-icon">🔧</span>Piping & Skid Packages</a>
+        <a href="portfolio/index.html#fea-and-cfd"><span class="drop-icon">💻</span>FEA & CFD Analysis</a>
+        <a href="portfolio/index.html#3d-modelling"><span class="drop-icon">🖥️</span>3D Modelling & Detailing</a>
+        <a href="portfolio/index.html#storage-tanks"><span class="drop-icon">🛢️</span>Storage Tanks</a>
+        <a href="portfolio/index.html#electrical-and-instrumentation"><span class="drop-icon">⚡</span>Electrical & Instrumentation</a>
         <div class="drop-div"></div>
         <a href="portfolio/index.html" class="view-all"><span class="drop-icon">→</span>View Full Portfolio</a>
       </div>
     </li>
-    <li class="nav-item"><a href="certification/index.html">Product Certification</a></li>
+    <li class="nav-item"><a href="certification/index.html">Regulatory Compliances</a></li>
     <li class="nav-item"><a href="contact/index.html">Contact</a></li>
   </ul>
   <div class="nav-right">
@@ -473,7 +473,7 @@ img{max-width:100%;display:block}
   <div class="mob-section">Portfolio</div>
   <a href="portfolio/index.html">📁 All Projects</a>
   <a href="portfolio/index.html" style="color:var(--blue);">→ View Full Portfolio</a>
-  <a href="certification/index.html">🏆 Product Certification</a>
+  <a href="certification/index.html">🏆 Regulatory Compliances</a>
   <a href="contact/index.html">📞 Contact Us</a>
 </div>
 
@@ -874,7 +874,7 @@ img{max-width:100%;display:block}
         <li><a href="about/index.html" style="font-size:14.5px;color:rgba(255,255,255,0.55);text-decoration:none;" onmouseover="this.style.color='#2389E8'" onmouseout="this.style.color='rgba(255,255,255,0.55)'">About Us</a></li>
         <li><a href="services/index.html" style="font-size:14.5px;color:rgba(255,255,255,0.55);text-decoration:none;" onmouseover="this.style.color='#2389E8'" onmouseout="this.style.color='rgba(255,255,255,0.55)'">Services</a></li>
         <li><a href="portfolio/index.html" style="font-size:14.5px;color:rgba(255,255,255,0.55);text-decoration:none;" onmouseover="this.style.color='#2389E8'" onmouseout="this.style.color='rgba(255,255,255,0.55)'">Portfolio</a></li>
-        <li><a href="certification/index.html" style="font-size:14.5px;color:rgba(255,255,255,0.55);text-decoration:none;" onmouseover="this.style.color='#2389E8'" onmouseout="this.style.color='rgba(255,255,255,0.55)'">Product Certification</a></li>        <li><a href="contact/index.html" style="font-size:14.5px;color:rgba(255,255,255,0.55);text-decoration:none;" onmouseover="this.style.color='#2389E8'" onmouseout="this.style.color='rgba(255,255,255,0.55)'">Contact</a></li>
+        <li><a href="certification/index.html" style="font-size:14.5px;color:rgba(255,255,255,0.55);text-decoration:none;" onmouseover="this.style.color='#2389E8'" onmouseout="this.style.color='rgba(255,255,255,0.55)'">Regulatory Compliances</a></li>        <li><a href="contact/index.html" style="font-size:14.5px;color:rgba(255,255,255,0.55);text-decoration:none;" onmouseover="this.style.color='#2389E8'" onmouseout="this.style.color='rgba(255,255,255,0.55)'">Contact</a></li>
       </ul>
     </div>
 
